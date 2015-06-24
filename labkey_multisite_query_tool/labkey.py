@@ -42,7 +42,7 @@ class LabKey(object):
                 query_name = config['query_name'],
                 columns = config['columns'],
                 aliases = config['aliases'],
-                custom_columns = config['custom_columns'],
+                custom_columns = config['custom_columns']
             )
 
             labkey_instances.append(labkey)
@@ -59,7 +59,7 @@ class LabKey(object):
             query_name=None,
             columns=[],
             aliases={},
-            custom_columns={},
+            custom_columns={}
             ):
         """Initialize an instance of a LabKey server connection.
 
