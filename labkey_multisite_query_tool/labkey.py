@@ -49,6 +49,7 @@ class LabKey(object):
 
         return labkey_instances
 
+
     def __init__(self,
             host=None,
             email=None,
@@ -60,8 +61,20 @@ class LabKey(object):
             aliases={},
             custom_columns={},
             ):
-        """
-        Initialize an instance of a LabKey server connection.
+        """Initialize an instance of a LabKey server connection.
+
+        Args:
+
+            host (str): LabKey host
+            email (str): User login
+            password (str): User password
+            project (str): LabKey Project name
+            schema (str): LabKey schema used for query_name (Example: 'lists')
+            query_name (str): LabKey resource to query
+            columns (list): Table columns to return
+            aliases (dict): Column alises used for filtering and output
+            custom_columns (dict): Custom columns to add to output. 
+                (Example: {'site': 'Boston'})
         """
 
         self.host = host
