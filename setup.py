@@ -15,7 +15,10 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    "wheel>=0.23.0",
+    "requests>=2.7.0",
+    "pandas>=0.16.2",
+    "docopt>=0.6.2"
 ]
 
 test_requirements = [
@@ -29,7 +32,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Stefan Novak",
     author_email='novast@ohsu.edu',
-    url='https://github.com/slnovak/labkey_multisite_query_tool',
+    url='https://github.com/OHSUCompBio/labkey_multisite_query_tool',
     packages=[
         'labkey_multisite_query_tool',
     ],
@@ -48,10 +51,8 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
     ],
+    scripts=['bin/labkey'],
     test_suite='tests',
     tests_require=test_requirements
 )

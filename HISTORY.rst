@@ -6,4 +6,4 @@ History
 0.1.0 (2015-06-23)
 ---------------------
 
-* First release on PyPI.
+* Project creation.
