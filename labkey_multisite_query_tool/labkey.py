@@ -82,7 +82,9 @@ class LabKey(object):
         """Query a Labkey instance using a collection of filters.
 
         Args:
+
             filters (dict): A hash of LabKey-compliant filters.
+
             aliases (dict): A dict containing column mapping names.
 
         Examples:
@@ -163,8 +165,8 @@ class LabKey(object):
         
         Args:
 
-            email (string): User e-mail.
-            password (string): User passowrd.
+            email (str): User e-mail.
+            password (str): User passowrd.
         
         Examples:
 
@@ -199,7 +201,7 @@ class LabKey(object):
 
         Args:
 
-            relative_url (string): Relative URL.
+            relative_url (str): Relative URL.
 
         Examples:
 
