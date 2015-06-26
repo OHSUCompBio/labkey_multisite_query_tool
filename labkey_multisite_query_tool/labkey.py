@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import os
-import requests
 from urlparse import urljoin
+import os
+import string
+
 import pandas as pd
+import requests
 import yaml
 
 class LabKey(object):
@@ -32,6 +34,12 @@ class LabKey(object):
             # Combine our default config with our server config.
             config = default_config.copy()
             config.update(server)
+
+            # Allow use to pass in environment variables to email/password
+            config.update(
+                email=string.Template(config['email']).substitute(os.environ),
+                password=string.Template(config['password']).substitute(os.environ)
+            )
 
             labkey = LabKey(
                 host = config['host'],
