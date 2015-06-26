@@ -15,7 +15,8 @@ requirements = [
     "wheel>=0.23.0",
     "requests>=2.7.0",
     "pandas>=0.16.2",
-    "docopt>=0.6.2"
+    "docopt>=0.6.2",
+    "PyYAML>=3.11"
 ]
 
 test_requirements = [
