@@ -8,11 +8,8 @@ except ImportError:
     from distutils.core import setup
 
 
-with open('README.rst') as readme_file:
+with open('README.md') as readme_file:
     readme = readme_file.read()
-
-with open('HISTORY.rst') as history_file:
-    history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
     "wheel>=0.23.0",
@@ -29,7 +26,7 @@ setup(
     name='labkey_multisite_query_tool',
     version='0.1.0',
     description="Commandline tool for querying across mutltiple LabKey instances.",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author="Stefan Novak",
     author_email='novast@ohsu.edu',
     url='https://github.com/OHSUCompBio/labkey_multisite_query_tool',
