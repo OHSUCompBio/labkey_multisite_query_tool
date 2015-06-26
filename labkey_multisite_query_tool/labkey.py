@@ -7,6 +7,10 @@ import pandas as pd
 import requests
 import yaml
 
+# Use compatibility mode. This is needed when renaming columns.
+from pandas import compat
+compat.PY3 = True
+
 class LabKey(object):
 
     @classmethod
