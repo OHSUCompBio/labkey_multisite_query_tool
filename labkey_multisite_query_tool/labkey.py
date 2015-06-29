@@ -54,7 +54,8 @@ class LabKey(object):
                 query_name = config['query_name'],
                 columns = config['columns'],
                 aliases = config['aliases'],
-                custom_columns = config['custom_columns']
+                custom_columns = config['custom_columns'],
+                column_order = config['column_order']
             )
 
             labkey_instances.append(labkey)
@@ -71,7 +72,8 @@ class LabKey(object):
             query_name=None,
             columns=[],
             aliases={},
-            custom_columns={}
+            custom_columns={},
+            column_order=[]
             ):
         """Initialize an instance of a LabKey server connection.
 
@@ -98,6 +100,7 @@ class LabKey(object):
         self.columns = columns
         self.aliases = aliases
         self.custom_columns = custom_columns
+        self.column_order = column_order
 
         # Create a session object for this LabKey instance.
         self.session = requests.Session()
@@ -181,6 +184,15 @@ class LabKey(object):
         # Add our custom columns.
         for key, value in self.custom_columns.iteritems():
             data_frame[key] = value
+
+        # Re-order columns. We treat columns in "column_order" as "priority
+        # columns" and the others as "remaining columns".
+
+        priority_columns = self.column_order
+
+        remaining_columns = [column for column in self.columns if column in data_frame.columns and column not in priority_columns]
+
+        data_frame = data_frame[priority_columns + remaining_columns]
 
         return data_frame
 

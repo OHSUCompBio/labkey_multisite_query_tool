@@ -21,6 +21,7 @@ know:
 
 ```
 › labkey --help
+
 LabKey Multisite Query Tool.
 
 Usage:
@@ -29,7 +30,7 @@ Usage:
 
 Options:
   -h --help                      Show this screen.
-  --config-file=<file.yml>       Specify the path to a YAML file containing
+  --config-file=<file.yml>       Specify the path to a YAML file containing 
                                  configuration information for LabKey instances.
                                  [default: $HOME/.labkey.yml]
   --output-format=<format>       Output format that is rendered in standard out.
@@ -59,45 +60,64 @@ About Filters:
         # Rendering an HTML output of results
         $ labkey --output-format=html gender~eq=Male donor_age~gte=40 > results.html
 
-
 Example Configuration:
 
     Server configuration is done via a YAML file with a default location of
     $HOME/.labkey.yml. You can also provide your own custom path if need be.
     Note that for each server configuration, options from "default" are merged
     into that server configuration.
-
+    
     Example .labkey.yml:
 
+        # The default block contains properties used for all servers.
         default:
 
+          # LabKey credentials. Note that we can use environmental variables
+          # here that can be parsed.
+          email: $LABKEY_EMAIL
+          password: $LABKEY_PASSWORD
+
+          # LabKey project information
+          project: ccc
           schema: lists
+          query_name: genome_data
 
+          # Column aliases for filtering and for output rendering. Listed
+          # as <column in LabKey>: <column alias>
           aliases:
-            specimen_id/donor_sex: gender
+            fastq_forward: fastq_forward_ccc_did
+            fastq_forward: fastq_forward_ccc_did
+            fastq_reverse: fastq_reverse_ccc_did
+            specific_diagnosis: diagnosis
+            specimen_id/disease_state: disease_state
             specimen_id/donor_age_at_diagnosis: donor_age
+            specimen_id/donor_gender: donor_gender
+            specimen_id/specimen_type: specimen_type
 
+          # Columns to return. Note that we can use aliases here.
           columns:
-            - CCC_DID
-            - pair_id
-            - pair_direction
-            - dataset_collection_name
+            - diagnosis
+            - disease_state
+            - donor_age
+            - donor_gender
+            - fastq_forward_ccc_did
+            - fastq_reverse_ccc_did
+            - specimen_type
+
+          # We can specify column order. The columns below are listed first
+          # while the other columns (specified in the "columns" property) are
+          # listed in their corresponding order.
+          column_order:
+            - site_name
+
 
         servers:
 
-          - host: 'http://host1.server.com:9005/labkey'
-            email: 'foo@bar.com'
-            password: 'foobar'
-            project: 'my_project'
+          - host: http://localhost:9004/labkey/
             custom_columns:
-              site_name: Boston
-
-          - host: 'http://host2.server.com:8005/labkey'
-            email: 'foo@bar.com'
-            password: 'foobar'
-            project: 'my_other_project'
-            aliases:
-              specimen_id/donor_age: donor_age
+              site_name:  Austin
+      
+          - host: http://localhost:9004/labkey/
             custom_columns:
-              site_name: Austin
+              site_name:  Boston
 ```
