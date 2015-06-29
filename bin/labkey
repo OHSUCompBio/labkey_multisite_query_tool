@@ -38,12 +38,28 @@ About Filters:
         # Rendering an HTML output of results
         $ labkey --output-format=html gender~eq=Male donor_age~gte=40 > results.html
 
+
 Example Configuration:
 
     Server configuration is done via a YAML file with a default location of
     $HOME/.labkey.yml. You can also provide your own custom path if need be.
     Note that for each server configuration, options from "default" are merged
     into that server configuration.
+
+    Required attributes:
+
+      + host
+      + email
+      + password
+      + project
+      + schema
+      + query_name
+      + columns
+
+    Optional attributes:
+
+      + aliases
+      + column_order
     
     Example .labkey.yml:
 

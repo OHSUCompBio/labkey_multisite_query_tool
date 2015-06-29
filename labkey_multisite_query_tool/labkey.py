@@ -29,7 +29,7 @@ class LabKey(object):
         with open(config_file_path, 'r') as config_file:
             config = yaml.load(config_file)
             
-        default_config = config['default']
+        default_config = config.get('default', {})
 
         labkey_instances = []
 
@@ -53,9 +53,9 @@ class LabKey(object):
                 schema = config['schema'],
                 query_name = config['query_name'],
                 columns = config['columns'],
-                aliases = config['aliases'],
-                custom_columns = config['custom_columns'],
-                column_order = config['column_order']
+                aliases = config.get('aliases', {}),
+                custom_columns = config.get('custom_columns', []),
+                column_order = config.get('column_order', [])
             )
 
             labkey_instances.append(labkey)
