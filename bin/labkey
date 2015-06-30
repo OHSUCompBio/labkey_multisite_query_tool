@@ -146,16 +146,16 @@ if __name__ == "__main__":
     data_frames = pd.concat(data_frames)
 
     if output_format == 'json':
-        print data_frame.to_json(orient='records')
+        print data_frames.to_json(orient='records')
 
     elif output_format == 'html':
-        print data_frame.to_html()
+        print data_frames.to_html()
 
     elif output_format == 'csv':
-        print data_frame.to_csv(index=False)
+        print data_frames.to_csv(index=False)
 
     elif output_format == 'tsv':
-        print data_frame.to_csv(sep="\t", index=False)
+        print data_frames.to_csv(sep="\t", index=False)
 
     else:
         raise RuntimeError("Output error must be {json, html, csv, tsv}")
