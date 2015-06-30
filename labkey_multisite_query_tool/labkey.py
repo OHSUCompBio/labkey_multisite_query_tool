@@ -20,15 +20,15 @@ class LabKey(object):
         Args:
 
             config_file_path (str): Path to a YAML config files.
-        """ 
+        """
 
         # Expand environment variables.
         config_file_path = os.path.expandvars(config_file_path)
 
-        # Read our config file. 
+        # Read our config file.
         with open(config_file_path, 'r') as config_file:
             config = yaml.load(config_file)
-            
+
         default_config = config.get('default', {})
 
         labkey_instances = []
@@ -46,16 +46,16 @@ class LabKey(object):
             )
 
             labkey = LabKey(
-                host = config['host'],
-                email = config['email'],
-                password = config['password'],
-                project = config['project'],
-                schema = config['schema'],
-                query_name = config['query_name'],
-                columns = config['columns'],
-                aliases = config.get('aliases', {}),
-                custom_columns = config.get('custom_columns', []),
-                column_order = config.get('column_order', [])
+                host=config['host'],
+                email=config['email'],
+                password=config['password'],
+                project=config['project'],
+                schema=config['schema'],
+                query_name=config['query_name'],
+                columns=config['columns'],
+                aliases=config.get('aliases', {}),
+                custom_columns=config.get('custom_columns', []),
+                column_order=config.get('column_order', [])
             )
 
             labkey_instances.append(labkey)
@@ -64,17 +64,16 @@ class LabKey(object):
 
 
     def __init__(self,
-            host=None,
-            email=None,
-            password=None,
-            project=None,
-            schema=None, 
-            query_name=None,
-            columns=[],
-            aliases={},
-            custom_columns={},
-            column_order=[]
-            ):
+                 host=None,
+                 email=None,
+                 password=None,
+                 project=None,
+                 schema=None,
+                 query_name=None,
+                 columns=None,
+                 aliases=None,
+                 custom_columns=None,
+                 column_order=None):
         """Initialize an instance of a LabKey server connection.
 
         Args:
@@ -87,9 +86,21 @@ class LabKey(object):
             query_name (str): LabKey resource to query
             columns (list): Table columns to return
             aliases (dict): Column alises used for filtering and output
-            custom_columns (dict): Custom columns to add to output. 
+            custom_columns (dict): Custom columns to add to output.
                 (Example: {'site': 'Boston'})
         """
+
+        if columns is None:
+            columns = []
+
+        if aliases is None:
+            aliases = {}
+
+        if custom_columns is None:
+            custom_columns = {}
+
+        if column_order is None:
+            column_order = []
 
         self.host = host
         self.email = email
@@ -106,7 +117,7 @@ class LabKey(object):
         self.session = requests.Session()
 
 
-    def query(self, filters={}, aliases={}):
+    def query(self, filters=None, aliases=None):
         """Query a Labkey instance using a collection of filters.
 
         Args:
@@ -123,6 +134,12 @@ class LabKey(object):
                     }
             >>> df = labkey.query(filters)
         """
+
+        if filters is None:
+            filters = {}
+
+        if aliases is None:
+            aliases = {}
 
         query_url = self.url("query/{0}/selectRows.api".format(self.project))
 
@@ -190,7 +207,8 @@ class LabKey(object):
 
         priority_columns = self.column_order
 
-        remaining_columns = [column for column in self.columns if column in data_frame.columns and column not in priority_columns]
+        remaining_columns = [column for column in self.columns if column in
+                             data_frame.columns and column not in priority_columns]
 
         data_frame = data_frame[priority_columns + remaining_columns]
 
@@ -199,12 +217,12 @@ class LabKey(object):
 
     def login(self, email=None, password=None):
         """Logs into a LabKey instance. Persists JSESSIONID cookie in session.
-        
+
         Args:
 
             email (str): User e-mail.
             password (str): User passowrd.
-        
+
         Examples:
 
             >>> labkey.login(email="foo@bar.com", password="foobar")
